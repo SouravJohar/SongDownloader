@@ -5,15 +5,12 @@ import dryscrape
 import urllib
 
 
-
-
-
 def youtubedl(search):
     media = "audio"
     url = 'https://www.youtube.com/results?search_query='+search[:len(search)-3]
-    sc =requests.get(url)
-    soup = BeautifulSoup(sc.content,'html.parser')
-    title = soup.findAll('h3',{'class':'yt-lockup-title '})
+    sc = requests.get(url)
+    soup = BeautifulSoup(sc.content, 'html.parser')
+    title = soup.findAll('h3', {'class': 'yt-lockup-title '})
     link = []
     for i in range(len(title)):
         link.append(title[i].find('a')['href'])
@@ -23,9 +20,9 @@ def youtubedl(search):
     while True:
         try:
             user_input = int(raw_input(">"))
-            if user_input == 999: #override code
+            if user_input == 999:  # override code
                 continue
-            if user_input not in range(1,20):
+            if user_input not in range(1, 20):
                 print ('!')
                 continue
             break
@@ -47,16 +44,14 @@ def youtubedl(search):
     if media == "audio":
         os.system("youtube-dl -f 140 " + f_link)
     print "Downlod Complete"
- 
-
-
 
 
 flag = ""
-headers = {"User-agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.80 Safari/537.36"}
+headers = {"User-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36\
+ (KHTML, like Gecko) Chrome/47.0.2526.80 Safari/537.36"}
 search = raw_input(">")
 for song in search.split(', '):
-    if song[len(song) -3:] == ' -y':
+    if song[len(song) - 3:] == ' -y':
         youtubedl(song)
     else:
         base_url = "http://mp3brainz.cc/v1/"
@@ -79,8 +74,8 @@ for song in search.split(', '):
         if len(links) > 10:
             for i in range(20):
                 temp = link_[i].text.split('\n')
-                print str(i+1)+ ".", temp[2],temp[3],temp[5]
-            n =int(raw_input(">"))
+                print str(i+1) + ".", temp[2], temp[3], temp[5]
+            n = int(raw_input(">"))
             if n == 0:
                     youtubedl(search)
             if n == 999:
@@ -91,10 +86,9 @@ for song in search.split(', '):
                 session2.visit(download)
                 response2 = session2.body()
                 soup1 = BeautifulSoup(response2, 'lxml')
-                final_link = soup1.findAll('span' , {'class':'url'})
+                final_link = soup1.findAll('span', {'class': 'url'})
                 final_link = str(final_link)[19:].split('<')
-                print "Downloading from: \n",final_link[0], "\n\n"
-                #urllib.urlretrieve(g[0], "{}.mp3".format(names[n-1].text))
+                print "Downloading from: \n", final_link[0], "\n\n"
                 os.system("curl -O " + final_link[0])
                 os.system("say download complete")
 
