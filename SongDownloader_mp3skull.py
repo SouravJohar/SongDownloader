@@ -12,11 +12,6 @@ r = requests.get(url)
 soup = bs(r.content, 'lxml')
 titles = []
 titles = soup.find_all('div', {'class':'unselectable'})
-count = 1
-for i in titles:
-    if count<=20:
-        print count, '.', i.text
-        count = count + 1
 temp_html=[]
 links =[]
 temp_html= soup.find_all('div', {'title':'Download'})
