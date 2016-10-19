@@ -8,7 +8,8 @@ import os
 import sys
 from bs4 import BeautifulSoup
 import time
-
+from _future_ import unicode_literals
+import youtube_dl
 
 media = "default"
 search = raw_input()
@@ -46,9 +47,14 @@ f_link = 'https://www.youtube.com'+link[user_input-1]
 
 # print ('Downloading...')
 if media == "default":
-    os.system("youtube-dl -f 140 " + f_link)
+    ydl_opts = {
+        'format': 140,
+    }
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        ydl.dowload([f_link])
 if media == "defvideo":
-    os.system("youtube-dl " + f_link)
+    with youtube_dl.YoutubeDL() as ydl:
+        ydl.download([f_link])
 print "Download Complete"
 
 # File gets downloaded to your Python directory
