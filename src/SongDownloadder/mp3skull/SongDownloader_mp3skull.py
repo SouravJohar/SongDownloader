@@ -1,3 +1,5 @@
+#!/usr/bin/env python2
+
 from bs4 import BeautifulSoup as bs
 import urllib
 import requests

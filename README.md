@@ -2,11 +2,13 @@
 a simple webscraping code developed in java using jsoup and ui4j libraries to download something in youtube and convert it into high quality audio format(mp3). It can be used as a song downloader.
 
 ## Requirements
-- System requirements
-
-    `apt-get install qt5-default libqt5webkit5-dev build-essential python-lxml       python-pip xvfb` 
+- System requirements  
+    - Ubuntu  
+        `apt-get install qt5-default libqt5webkit5-dev build-essential python-lxml       python-pip xvfb` 
+    - Arch Linux  
+        `pacman -S qt5-base qt5-webkit base-devel python2-pip xorg-server-xvfb jre8-openjdk`  
+        Arch defaults to python3, so be careful to use the python2 versions of pip (pip2) and the other libraries.
 - python
-
     `pip install -r requirements.txt`
 
 - Java Based Requirements: Install .jar file for each package and put it in the same directory as the file otherwise use IDE for the same.
