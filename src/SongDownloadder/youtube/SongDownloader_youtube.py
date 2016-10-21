@@ -1,3 +1,4 @@
+#!/usr/bin/env python2
 # Designed for Python2.7
 # BeautifulSoup, Requests libraries should be installed
 # youtube-dl should be installed
