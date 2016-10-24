@@ -3,11 +3,9 @@
 # youtube-dl should be installed
 
 
-import requests
-import os
-import sys
 from bs4 import BeautifulSoup
-import time
+import requests
+import youtube_dl
 
 
 media = "default"
@@ -28,7 +26,7 @@ link = []
 for i in range(len(title)):
     link.append(title[i].find('a')['href'])
 for i in range(len(title)):
-    print (str(i+1)+'. '+title[i].find('a').text)
+    print(str(i + 1) + '. ' + title[i].find('a').text)
 
 while True:
     try:
@@ -41,15 +39,20 @@ while True:
     except NameError:
         print ('!')
         continue
-f_link = 'https://www.youtube.com'+link[user_input-1]
+f_link = 'https://www.youtube.com' + link[user_input - 1]
 
 
 # print ('Downloading...')
 if media == "default":
-    os.system("youtube-dl -f 140 " + f_link)
+ opts = {
+     'format': "140"
+ }
+ with youtube_dl.YoutubeDL(opts) as ydl:
+     ydl.download([f_link])
 if media == "defvideo":
-    os.system("youtube-dl " + f_link)
-print "Download Complete"
+ with youtube_dl.YoutubeDL() as ydl:
+     ydl.download([f_link])
+print("Download Complete")
 
 # File gets downloaded to your Python directory
 # Use os.rename() to rename the file if required

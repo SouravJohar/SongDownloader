@@ -1,14 +1,14 @@
-import requests
 from bs4 import BeautifulSoup
-import os
 import dryscrape
-import urllib
+import os
+import requests
+import youtube_dl
 
 
 def youtubedl(search):
     media = "audio"
     url = 'https://www.youtube.com/results?search_query=' + \
-          search[:len(search)-3]
+          search[:len(search) - 3]
     sc = requests.get(url)
     soup = BeautifulSoup(sc.content, 'html.parser')
     title = soup.findAll('h3', {'class': 'yt-lockup-title '})
@@ -30,7 +30,7 @@ def youtubedl(search):
         except NameError:
             print ('!')
             continue
-    f_link = 'https://www.youtube.com'+link[user_input-1]
+    f_link = 'https://www.youtube.com' + link[user_input - 1]
 
     if search[::-1][:3] == 'v- ':
         media = "defvideo"
@@ -39,12 +39,21 @@ def youtubedl(search):
         media = "video"
 
     if media == "video":
-        os.system("youtube-dl -f {} ".format(res) + f_link)
+        opts = {
+            'format': str(res)
+        }
+        with youtube_dl.YoutubeDL(opts) as ydl:
+           ydl.download([f_link])
     if media == "defvideo":
-        os.system("youtube-dl " + f_link)
+        with youtube_dl.YoutubeDL() as ydl:
+          ydl.download([f_link])
     if media == "audio":
-        os.system("youtube-dl -f 140 " + f_link)
-    print "Downlod Complete"
+        opts = {
+            'format': "140"
+        }
+        with youtube_dl.YoutubeDL(opts) as ydl:
+          ydl.download([f_link])
+    print("Downlod Complete")
 
 
 flag = ""
@@ -70,29 +79,29 @@ for song in search.split(', '):
 
                     link_.append(link)
                     link__.append(link['href'][2:])
-            except:
+            except Exception:
                 pass
         if len(links) > 10:
             for i in range(20):
                 temp = link_[i].text.split('\n')
-                print str(i + 1) + ".", temp[2], temp[3], temp[5]
+                print(str(i + 1) + ".", temp[2], temp[3], temp[5])
             n = int(raw_input(">"))
             if n == 0:
                     youtubedl(search)
             if n == 999:
                 continue
             else:
-                download = base_url + link__[n-1]
+                download = base_url + link__[n - 1]
                 session2 = dryscrape.Session()
                 session2.visit(download)
                 response2 = session2.body()
                 soup1 = BeautifulSoup(response2, 'html.parser')
                 final_link = soup1.findAll('span', {'class': 'url'})
                 final_link = str(final_link)[19:].split('<')
-                print "Downloading from: \n", final_link[0], "\n\n"
+                print("Downloading from: \n", final_link[0], "\n\n")
                 # urllib.urlretrieve(g[0], "{}.mp3".format(names[n-1].text))
                 os.system("curl -O " + final_link[0])
-                print "Download complete"
+                print("Download complete")
 
         else:
             youtubedl(search)

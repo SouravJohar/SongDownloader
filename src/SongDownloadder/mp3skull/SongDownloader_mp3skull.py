@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup as bs
-import urllib
 import requests
-from urllib import re
+import urllib
 
 max_options_limit = 20
 url_prefix = r'http://mp3clan.ws/mp3/'
@@ -13,8 +12,8 @@ soup = bs(r.content, 'lxml')
 titles = soup.find_all('div', {'class': 'unselectable'})[0:max_options_limit]
 download_links = soup.find_all('div', {'title': 'Download'})[0:max_options_limit]
 links = []
-for (count,title,download_link) in zip(range(1,max_options_limit + 1),titles,download_links):
-  print str(count) + '. ' + title.text
+for(count, title, download_link) in zip(range(1, max_options_limit + 1), titles, download_links):
+  print(str(count) + '. ' + title.text)
   links.append(download_link.find('a')['href'])
 choice = int(raw_input())
 # Download
@@ -23,4 +22,4 @@ mp3 = response.read()
 f = open("thisshouldwork.mp3", "w")
 f.write(mp3)
 f.close()
-print "Done"
+print("Done")
